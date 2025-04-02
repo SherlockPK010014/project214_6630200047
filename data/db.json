@@ -1,0 +1,41 @@
+{
+  "profile": {
+    "profile": {},
+    "fullNameTH": "นางสาวกัญญ์ยาศิริ กวีสิริโชติกุล",
+    "fullNameEN": "Kanyasiri Kaveesirichotikul",
+    "nickname": "Prang",
+    "studentID": "6630200047",
+    "major": "S05",
+    "graduated": "Sriracha school"
+  },
+  "subjects": [
+    {
+      "id": "1",
+      "subjectName": "Algor",
+      "subjectCode": "01418232",
+      "credits": 3,
+      "grade": "A"
+    },
+    {
+      "id": "97b7",
+      "subjectName": "OS",
+      "subjectCode": "01418233",
+      "credits": 3,
+      "grade": "A"
+    },
+    {
+      "id": "7474",
+      "subjectName": "Database",
+      "subjectCode": "01418221",
+      "credits": "2",
+      "grade": "A"
+    },
+    {
+      "id": "2bb4",
+      "subjectName": "Practicum in Software Development",
+      "subjectCode": "01418214-0267",
+      "credits": "1",
+      "grade": "A"
+    }
+  ]
+}
