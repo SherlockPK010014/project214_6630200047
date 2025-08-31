@@ -1,9 +1,27 @@
 <template>
   <section class="section" id="home">
-    <h1 class="title">HELLO, GET TO KNOW ME...</h1>
-    <h2 class="typing">Welcome to my profile</h2>
+    <h1 class="title animated-title" v-reveal>
+  <span
+    v-for="(ch, i) in letters"
+    :key="i"
+    :style="{ animationDelay: (i * 0.05) + 's' }"
+  >
+    {{ ch === ' ' ? '\u00A0' : ch }}
+  </span>
+</h1>
+    <h2 class="typing" v-reveal>
+  <span
+    v-for="(ch, i) in lettersH2"
+    :key="i"
+    :style="{ animationDelay: (i * 0.15) + 's' }"
+  >
+    {{ ch === ' ' ? '\u00A0' : ch }}
+  </span>
+</h2>
     <br>
-    <div :class="['Homepic-container', { expanded: isExpanded }]" @mouseover="expandImages">
+    <div :class="['Homepic-container', { expanded: isExpanded }]"
+  @mouseover="expandImages"
+  v-reveal>
       <div class="Homepic">
         <img src="@/assets/34264.jpg" alt="MainProfile-pic" class="main-pic" />
         <img src="@/assets/34276.jpg" alt="Extra Pic1" class="extra-1" />
@@ -20,22 +38,89 @@ export default {
   data() {
     return {
       isExpanded: false,
+      text: "HELLO, GET TO KNOW ME...",
+      text2: "Welcome to my profile",
     };
+  },
+  computed: {
+    letters() {
+      return this.text.split('');
+    },
+    lettersH2() {
+      return this.text2.split("");
+    }
   },
   methods: {
     expandImages() {
       this.isExpanded = true;
     }
-  }
+  },
+  // ⬇️ เพิ่มส่วนนี้
+  directives: {
+    reveal: {
+      mounted(el) {
+        // เริ่มจากสถานะซ่อน
+        el.classList.add('reveal');
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('in-view');   // โผล่
+              } else {
+                e.target.classList.remove('in-view'); // ซ่อนเมื่อพ้นจอ (เล่นซ้ำได้)
+              }
+            });
+          },
+          {
+            threshold: 0.15,
+            rootMargin: '0px 0px -10% 0px',
+          }
+        );
+
+        io.observe(el);
+      },
+    },
+  },
 };
+
 </script>
 
 <style scoped>
 .title{
   margin-top: 3%;
 }
-.typing{
-  margin-top: 5%;
+
+.animated-title {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.animated-title span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1.2s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.typing span {
+  display: inline-block;
+  opacity: 0;
+  animation: blinkIn 0.6s forwards;
+}
+
+@keyframes blinkIn {
+  0%   { opacity: 0; }
+  50%  { opacity: 1; }
+  100% { opacity: 1; }
 }
 .Homepic-container {
   position: relative;
@@ -121,6 +206,23 @@ export default {
   left: 880px;
   transform: translateX(0);
 }
+/* ===== Fade + Slide Up (reveal on scroll) ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity .7s ease,
+    transform .7s ease;
+  /* ถ้าอยากหน่วงแต่ละบล็อก ใส่ inline style: style="--delay:200ms" ได้ */
+  transition-delay: var(--delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 </style>
 
 

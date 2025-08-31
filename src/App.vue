@@ -4,9 +4,9 @@
     <Header />
     <Home />
     <AboutMe />
-    <Education />
+    <Achievements />
     <!-- <Education /> -->
-    <Future />
+    <Skill />
     <Contact />
     
   </div>
@@ -16,9 +16,10 @@
 import Header from './components/HeaderNav.vue'  // Assuming this is the correct filename
 import Home from './components/Home.vue'         // Fixed: Added complete path
 import AboutMe from './components/AboutMe.vue'
-import Education from './components/Education.vue'
-import Future from './components/Future.vue'
+import Achievements from './components/Achievements.vue'
+import Skill from './components/Skill.vue'
 import Contact from './components/Contact.vue'
+
 
 
 export default {
@@ -27,8 +28,8 @@ export default {
     Header,
     Home,
     AboutMe,
-    Education,
-    Future,
+    Achievements,
+    Skill,
     Contact,
     
   }
@@ -53,7 +54,7 @@ html {
 }
 
 body {
-    background-color: rgb(21, 52, 72);
+    background-color: #132743;
     color: rgb(223, 208, 184);
     line-height: 1.6;
     font-size: 1.6rem;
@@ -65,7 +66,7 @@ header.logohead {
     top: 0;
     left: 0;
     width: 100%;
-    background: rgba(21, 52, 72, 0.95);
+    background: #142d4c;
     padding: 1rem 5%;
     display: flex;
     justify-content: space-between;

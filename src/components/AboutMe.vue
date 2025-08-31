@@ -1,7 +1,7 @@
 <template>
   <section class="section" id="about-me">
     <div class="about-me-container">
-      <div class="Pic-ABU">
+      <div class="Pic-ABU reveal" v-reveal style="--delay:0ms">
         <div class="card">
           <div class="card-face front">
             <img src="@/assets/34285.jpg" alt="abu-pic-front" />
@@ -11,242 +11,126 @@
           </div>
         </div>
       </div>
+
       <div class="profile-content">
         <br />
-        <h1 class="title">About Me</h1>
+        <h1 class="title reveal" v-reveal style="--delay:120ms">About Me</h1>
         <br />
-        <div v-if="profile">
-          <div v-if="!isEditing">
-            <h4>
-              <span class="label">ชื่อ - นามสกุล : </span>
-              <span class="value">{{ profile.fullNameTH }}</span>
-            </h4>
-            <br />
-            <h4>
-              <span class="label">Name : </span>
-              <span class="value">{{ profile.fullNameEN }}</span>
-            </h4>
-            <br />
-            <h4>
-              <span class="label">Nickname : </span>
-              <span class="value">{{ profile.nickname }}</span>
-            </h4>
-            <br />
-            <h4>
-              <span class="label">Student ID : </span>
-              <span class="value">{{ profile.studentID }}</span>
-            </h4>
-            <br />
-            <h4>
-              <span class="label">Major : </span>
-              <span class="value">{{profile.major}}</span>
-            </h4>
-            <br />
-            <h4>
-              <span class="label">Graduated from high school : </span>
-              <span class="value">{{profile.graduated}}</span>
-            </h4>
-            <br />
-            <button class="edit-btn" @click="startEditing">แก้ไขข้อมูล</button>
-          </div>
-          <div v-else>
-            <form @submit.prevent="saveChanges">
-              <div class="form-group">
-                <label>ชื่อ - นามสกุล (TH) : </label>
-                <input
-                  type="text"
-                  v-model="profile.fullNameTH"
-                  class="form-input"
-                  required
-                  placeholder="กรุณากรอกชื่อ - นามสกุล (TH)"
-                />
-              </div>
-              <div class="form-group">
-                <label>Name (EN) : </label>
-                <input
-                  type="text"
-                  v-model="profile.fullNameEN"
-                  class="form-input"
-                  required
-                  placeholder="กรุณากรอกชื่อ - นามสกุล (EN)"
-                />
-              </div>
-              <div class="form-group">
-                <label>Nickname :</label>
-                <input
-                  type="text"
-                  v-model="profile.nickname"
-                  class="form-input"
-                  required
-                  placeholder="กรุณากรอกชื่อเล่น"
-                />
-              </div>
-              <div class="form-group">
-                <label>Student ID :</label>
-                <input
-                  type="text"
-                  v-model="profile.studentID"
-                  class="form-input"
-                  required
-                  placeholder="กรุณากรอกรหัสนิสิต"
-                />
-              </div>
-              <div class="form-group">
-                <label>Major :</label>
-                <input
-                  type="text"
-                  v-model="profile.major"
-                  class="form-input"
-                  required
-                  placeholder="กรุณากรอกสาขาวิชา"
-                />
-              </div>
-              <div class="form-group">
-                <label>Graduated from high school : </label>
-                <input
-                  type="text"
-                  v-model="profile.graduated"
-                  class="form-input"
-                  required
-                  placeholder="กรุณากรอกชื่อโรงเรียนเดิมที่เคยศึกษา"
-                />
-              </div>
-              <br />
-              <div class="button-group">
-                <button type="submit" class="save-btn">บันทึก</button>
-                <button type="button" class="cancel-btn" @click="cancelEditing">
-                  ยกเลิก
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-        <div v-else>
-          <p>กำลังโหลดข้อมูล...</p>
+        <div class="profile-inner">
+          <h4 class="reveal" v-reveal style="--delay:200ms">
+            <span class="label">ชื่อ - นามสกุล : </span>
+            <span class="value">{{ profile.fullNameTH }}</span>
+          </h4>
+          <br />
+          <h4 class="reveal" v-reveal style="--delay:280ms">
+            <span class="label">Name : </span>
+            <span class="value">{{ profile.fullNameEN }}</span>
+          </h4>
+          <br />
+          <h4 class="reveal" v-reveal style="--delay:360ms">
+            <span class="label">Nickname : </span>
+            <span class="value">{{ profile.nickname }}</span>
+          </h4>
+          <br />
+          <h4 class="reveal" v-reveal style="--delay:440ms">
+            <span class="label">Student ID : </span>
+            <span class="value">{{ profile.studentID }}</span>
+          </h4>
+          <br />
+          <h4 class="reveal" v-reveal style="--delay:520ms">
+            <span class="label">Major : </span>
+            <span class="value">{{profile.major}}</span>
+          </h4>
+          <br />
+          <h4 class="reveal" v-reveal style="--delay:600ms">
+            <span class="label">University : </span>
+            <span class="value">{{profile.university}}</span>
+          </h4>
+          <br />
         </div>
       </div>
     </div>
   </section>
 </template>
 
-<script>
-export default {
-  name: "AboutMe",
-  data() {
-    return {
-      profile: {
-        fullNameTH: "",
-        fullNameEN: "",
-        nickname: "",
-        studentID: "",
-        major:"",
-        graduated:"",
-        isActive: false,
-      },
-      originalProfile: null,
-      isEditing: false,
-    };
-  },
-  mounted() {
-    fetch("http://localhost:3000/profile")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Fetched Data:", data);
-        this.profile = { ...data };
-        this.originalProfile = { ...data };
-      })
-      .catch((error) => console.error("Error fetching profile:", error));
-  },
-  methods: {
-    startEditing() {
-      this.isEditing = true;
-    },
-    saveChanges() {
-      if (
-        !this.profile.fullNameTH?.trim() ||
-        !this.profile.fullNameEN?.trim() ||
-        !this.profile.nickname?.trim() ||
-        !this.profile.studentID?.trim()
-      ) {
-        alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
-        return;
-      }
 
-      fetch("http://localhost:3000/profile", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(this.profile),
+<script>
+import profileData from '@/data/db.json'
+
+const revealDirective = {
+  mounted(el) {
+    el.classList.add('reveal')
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in-view')
+        } else {
+          // พอเลื่อนออกจากจอ ให้กลับไปซ่อน
+          e.target.classList.remove('in-view')
+        }
       })
-        .then((response) => response.json())
-        .then((updatedProfile) => {
-          this.profile = { ...updatedProfile };
-          this.originalProfile = { ...updatedProfile };
-          this.isEditing = false;
-          alert("บันทึกข้อมูลสำเร็จ");
-        })
-        .catch((error) => {
-          console.error("Error updating profile:", error);
-          alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล");
-        });
-    },
-    cancelEditing() {
-      this.profile = { ...this.originalProfile };
-      this.isEditing = false;
-    },
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' })
+
+    io.observe(el)
+  }
+}
+
+
+export default {
+  name: 'AboutMe',
+  directives: { reveal: revealDirective },
+  data() {
+    return { profile: null, originalProfile: null }
   },
-};
+  created() {
+    const payload = profileData
+    this.profile = { ...payload }
+    this.originalProfile = { ...payload }
+  }
+}
 </script>
+
+
 
 <style scoped>
 .section {
-  padding: 2rem;
-  background: #153448;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
   color: #fff;
-  border-radius: 10px;
-  max-width: 800px;
-  margin: auto;
+  border-radius: 16px;
+  max-width: 1500px;
+  min-height: 400px; 
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.section:hover {
+  transform: translateY(-3px);
 }
 
 .about-me-container {
   display: flex;
   align-items: flex-start;
-  gap: 2rem; 
+  gap: 2rem;
+  flex-wrap: wrap; /* responsive */
 }
 
 .Pic-ABU {
-  width: 400px;
-  height: 500px;
-  background: #fff;
-  border-radius: 10px;
+  
+  margin: 1rem;
+  margin-left: 5rem;
+  flex: 1;
+  min-width: 350px;
+  max-width: 400px;
+  height: 460px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
   overflow: hidden;
-  margin-left: -20rem;
-  margin-top: 15%;
-  perspective: 1000px; 
+  perspective: 1000px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
-
-.card {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d; 
-  animation: flip 6s infinite; 
-}
-
-.card-face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden; 
-}
-
-.card-face.front {
-  transform: rotateY(0deg); 
-}
-
-.card-face.back {
-  transform: rotateY(180deg); 
-}
-
 .Pic-ABU img {
   width: 80%;
   height: 80%;
@@ -255,81 +139,108 @@ export default {
   border-radius: 10px;
   margin-left: 1%;
 }
-
-@keyframes flip {
-  0% {
-    transform: rotateY(0deg); 
-  }
-  45% {
-    transform: rotateY(180deg); 
-  }
-  50% {
-    transform: rotateY(180deg); 
-  }
-  95% {
-    transform: rotateY(0deg);
-  }
-  100% {
-    transform: rotateY(0deg); 
-  }
+.card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: flip 8s infinite;
 }
 
+.card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+}
+
+.card-face.front { transform: rotateY(0deg); }
+.card-face.back { transform: rotateY(180deg); }
+
+
+
+
 .profile-content {
-  flex: 1;
+  flex: 2;
   text-align: left;
+  padding: rem;
 }
 
 .title {
-  font-size: 4.5rem;
+  margin-left: 1rem;
+  font-size: 3.5rem;
   margin-bottom: 1rem;
-  color: #fff;
-  margin-left: 20%;
-  margin-top: 12%;
+  color: #38bdf8; 
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
-.form-group {
+.profile-inner h4 {
+  margin-left: 1rem;
   margin-bottom: 1rem;
-  margin-left: 20%;
-}
-
-.form-input {
-  width: 100%;
-  padding: 0.5rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  margin-left: 20%;
-}
-
-.button-group {
   display: flex;
-  justify-content: space-between;
-  margin-left: 20%;
-}
-
-.edit-btn,
-.save-btn,
-.cancel-btn {
-  padding: 0.5rem 1rem;
-  background: #df644d;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 20%;
-}
-
-.cancel-btn {
-  background: #888;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .label {
-  font-size: 2rem;
-  color: #fff;
-  margin-left: 20%;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #fbbf24; 
 }
 
 .value {
   font-size: 2rem;
-  color: #fff;
+  color: #e2e8f0;
+  font-weight: 400;
+  padding: 0.25rem 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  transition: background 0.3s ease;
 }
+
+.value:hover {
+  background: rgba(56, 189, 248, 0.15);
+}
+
+/* Animation */
+@keyframes flip {
+  0%   { transform: rotateY(0deg); }
+  45%  { transform: rotateY(180deg); }
+  50%  { transform: rotateY(180deg); }
+  95%  { transform: rotateY(0deg); }
+  100% { transform: rotateY(0deg); }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .about-me-container { flex-direction: column; align-items: center; }
+  .title { text-align: center; }
+  .profile-content { text-align: center; }
+  .profile-inner h4 { justify-content: center; }
+}
+/* --- Scroll reveal (fade + slide-up) --- */
+.reveal{
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity .7s ease,
+    transform .7s ease;
+  transition-delay: var(--delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal.in-view{
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .reveal,
+  .reveal.in-view{
+    opacity:1 !important;
+    transform:none !important;
+    transition:none !important;
+  }
+}
+
 </style>
