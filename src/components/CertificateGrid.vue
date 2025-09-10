@@ -1,9 +1,9 @@
-<!-- components/CertificateGrid.vue -->
+
 <template>
   <section class="cert-section" id="achievements">
     <h1 class="cert-title "v-reveal>Achievements</h1>
 
-    <!-- FILTER TAGS -->
+   
     <div class="filters" v-reveal>
       <button
     v-for="t in ['All', ...allTags]"
@@ -16,12 +16,12 @@
   </button>
     </div>
 
-    <!-- GRID -->
+
     <div class="grid">
       <article v-for="(c, i) in filtered" :key="i" class="card" @click="open(c)"v-reveal
     :style="{ '--delay': (i * 80) + 'ms' }">
         <div class="thumb">
-          <!-- ใช้ภาพหน้าปก: รูปแรกจาก images[] หรือ image เดี่ยว -->
+
           <img :src="c.images?.[0] ?? c.image" :alt="c.title" loading="lazy" />
           <span v-if="c.verified" class="ribbon">Verified</span>
           <span v-if="c.images?.length" class="multi-badge">{{ c.images.length }} images</span>
@@ -31,7 +31,7 @@
           <h3 class="ctitle">{{ c.title }}</h3>
           <p class="issuer">{{ c.issuer }}</p>
 
-          <!-- ป้ายแท็ก -->
+
           <div class="cert-tags">
             <span class="cert-tag" v-for="t in c.tags" :key="t">{{ t }}</span>
           </div>
@@ -41,21 +41,21 @@
       </article>
     </div>
 
-    <!-- LIGHTBOX -->
+
     <div v-if="active" class="lightbox" @click.self="close" v-reveal>
       <div class="lightbox-inner" v-reveal style="--delay:120ms">
-        <!-- Viewer: รองรับหลายรูป -->
+
         <div class="viewer" v-reveal style="--delay:160ms">
           <button v-if="active.images?.length" class="nav prev" @click.stop="prev"
             aria-label="Previous image">&#10094;</button>
 
-          <!-- แสดงรูปปัจจุบัน: ถ้ามี images[] ให้ใช้ตาม activeIndex, ไม่งั้นใช้ image เดี่ยว -->
+
           <img :src="active.images?.length ? active.images[activeIndex] : active.image" :alt="active.title" />
 
           <button v-if="active.images?.length" class="nav next" @click.stop="next"
             aria-label="Next image">&#10095;</button>
 
-          <!-- Thumbnails -->
+
           <div v-if="active.images?.length" class="thumbs">
             <button v-for="(img, idx) in active.images" :key="idx" class="thumb-btn"
               :class="{ active: idx === activeIndex }" @click.stop="activeIndex = idx">
@@ -64,15 +64,10 @@
           </div>
         </div>
 
-        <!-- ข้อมูลใบประกาศ/ผลงาน -->
-        <!-- ข้อมูลใบประกาศ/ผลงาน -->
         <div class="lb-info" v-reveal style="--delay:200ms">
           <h3>{{ active.title }}</h3>
           <p class="issuer">{{ active.issuer }} • {{ formatDate(active.date) }}</p>
           <p class="desc" v-if="active.desc">{{ active.desc }}</p>
-
-          <!-- ปุ่ม Close -->
-          
         </div>
       <button class="btn ghost close-btn" @click="close">Close</button>
       </div>
@@ -165,21 +160,21 @@ export default {
   directives: {
   reveal: {
     mounted(el) {
-      // เริ่มซ่อน
+
       el.classList.add('reveal');
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
             if (e.isIntersecting) {
-              e.target.classList.add('in-view');    // โผล่
+              e.target.classList.add('in-view'); 
             } else {
-              e.target.classList.remove('in-view'); // ออกนอกจอ → กลับไปซ่อน (เล่นซ้ำได้)
+              e.target.classList.remove('in-view'); 
             }
           });
         },
         { threshold: 0.15, rootMargin: '0px 0px -10% 0px' }
       );
-      // เก็บไว้บน element เพื่อหยุดตอนถูกถอด
+
       el.__io = io;
       io.observe(el);
     },
@@ -198,7 +193,7 @@ export default {
     return {
       activeTag: 'All',
       active: null,
-      activeIndex: 0, // 👉 index รูปที่กำลังดูใน lightbox
+      activeIndex: 0, 
       items: [
         {
           title: 'MathLab Certificate',
@@ -355,7 +350,7 @@ export default {
     },
   },
   methods: {
-    // รูปหน้าปก: ถ้ามี images[] ใช้อันแรก, ถ้าไม่มีก็ใช้ image ปกติ
+
     coverOf(item) {
       return item.images?.[0] ?? item.image
     },
@@ -376,7 +371,7 @@ export default {
       if (e.key === 'ArrowLeft') this.prev()
     },
     currentImage() {
-      // คืน src รูปที่ต้องแสดงใน lightbox
+
       if (!this.active) return ''
       if (this.active.images?.length) return this.active.images[this.activeIndex]
       return this.active.image
@@ -405,7 +400,7 @@ export default {
 </script>
 
 <style scoped>
-/* ===== Lightbox Viewer (หลายรูป) ===== */
+
 .viewer {
   position: relative;
   background: #0b1220;
@@ -424,7 +419,7 @@ export default {
   border-radius: 8px;
 }
 
-/* ปุ่มเลื่อนซ้าย/ขวา */
+
 .nav {
   position: absolute;
   top: 50%;
@@ -455,7 +450,7 @@ export default {
   right: 20px;
 }
 
-/* แถบ thumbnails */
+
 .thumbs {
   display: flex;
   gap: .5rem;
@@ -495,7 +490,7 @@ export default {
   object-fit: cover;
 }
 
-/* Badge บอกจำนวนรูปบนการ์ด */
+
 .multi-badge {
   position: absolute;
   bottom: 8px;
@@ -527,7 +522,7 @@ export default {
   letter-spacing: .5px;
 }
 
-/* Filter chips */
+
 .filters {
   display: flex;
   gap: .6rem;
@@ -557,21 +552,16 @@ export default {
   color: #e6f6ff;
 }
 
-/* Grid */
-/* Grid */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  /* เดิม 260px → ขยายเป็น 340px */
   gap: 1.8rem;
-  /* เว้นระยะระหว่างใบมากขึ้นนิดหน่อย */
 }
 
 .card {
   background: rgba(255, 255, 255, .05);
   border: 1px solid rgba(255, 255, 255, .1);
   border-radius: 16px;
-  /* มุมโค้งขึ้นอีกนิด */
   overflow: hidden;
   cursor: pointer;
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
@@ -580,7 +570,6 @@ export default {
 .thumb {
   position: relative;
   aspect-ratio: 4 / 3;
-  /* อัตราส่วนรูป */
   background: #0b1220;
   overflow: hidden;
 }
@@ -589,9 +578,7 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  /* ให้รูปโชว์เต็ม ไม่โดนตัด */
   background: #fff;
-  /* เพิ่มพื้นหลังขาวรองรับใบประกาศ */
 }
 
 
@@ -623,7 +610,6 @@ export default {
   border-radius: 4px;
 }
 
-/* Meta text sizes — ปรับให้ใหญ่ขึ้น */
 .meta {
   padding: 1rem 1.1rem 1.2rem;
 }
@@ -647,7 +633,6 @@ export default {
   color: #94a3b8;
 }
 
-/* NEW: Certificate tags (แทน .tags/.tag เดิมที่ชน) */
 .cert-tags {
   display: flex;
   gap: .8rem;
@@ -697,7 +682,7 @@ export default {
 }
 
 .lightbox-inner{
-  position: relative;            /* สำคัญมาก */
+  position: relative;   
   display: grid;
   grid-template-columns: minmax(320px, 60vw) minmax(280px, 420px);
   gap: 1.2rem;
@@ -709,7 +694,6 @@ export default {
   box-shadow: 0 24px 60px rgba(0,0,0,.45);
 }
 
-/* ปุ่ม Close มุมขวาล่างของ lightbox-inner */
 .close-btn{
   position: absolute;
   right: 14px;
@@ -737,9 +721,7 @@ export default {
 
 .lb-info {
   position: relative;
-  /* ต้องใส่เพื่อให้ absolute ทำงานในกรอบนี้ */
   padding: 2rem 1.5rem 3rem;
-  /* บวก padding บน/ซ้าย */
   margin-top: 50px;
   margin-right: 50px;
   display: flex;
@@ -754,7 +736,6 @@ export default {
   margin: .25rem 0;
   color: #e2e8f0;
   font-size: 3rem;
-  /* เดิม ~1.4rem → ใหญ่ขึ้น */
   font-weight: 800;
   line-height: 1.25;
   letter-spacing: .2px;
@@ -763,7 +744,6 @@ export default {
 .lb-info .issuer {
   color: #a5b4fc;
   font-size: 1.5rem;
-  /* เดิม ~1.05rem → ใหญ่ขึ้น */
   font-weight: 600;
   line-height: 1.4;
   opacity: .98;
@@ -773,11 +753,9 @@ export default {
   margin: .5rem 0 0;
   color: #cbd5e1;
   font-size: 1.15rem;
-  /* เดิม ~1rem → ใหญ่ขึ้น */
   line-height: 1.7;
 }
 
-/* ปุ่ม */
 .actions {
   display: flex;
   gap: .7rem;
@@ -817,7 +795,6 @@ export default {
   border: 1px solid rgba(148, 163, 184, .3);
 }
 
-/* Responsive */
 @media (max-width: 900px) {
   .lightbox-inner {
     grid-template-columns: 1fr;
@@ -841,38 +818,35 @@ export default {
   transition:
     opacity .7s ease,
     transform .7s ease;
-  transition-delay: var(--delay, 0ms); /* ใช้คู่กับ style="--delay:xxxms" */
+  transition-delay: var(--delay, 0ms); 
   will-change: opacity, transform;
 }
 .reveal.in-view {
   opacity: 1;
   transform: translateY(0);
 }
-/* ====== Hover bounce on each certificate card ====== */
 
-/* ช่วยให้แอนิเมชันลื่น */
 .card{ will-change: transform, box-shadow; }
 
-/* เด้งนิด ๆ พร้อมเงาชัดขึ้น */
+
 .card:hover{
   animation: card-pop 260ms cubic-bezier(.22,1,.36,1) both;
   box-shadow: 0 18px 36px rgba(0,0,0,.40);
   border-color: rgba(56,189,248,.45);
 }
 
-/* เวลากดค้าง ให้กดลงเล็กน้อย (รู้สึกตอบสนอง) */
+
 .card:active{
   transform: translateY(-2px) scale(.995);
 }
 
-/* เด้งนิดเดียว (micro-bounce) */
+
 @keyframes card-pop{
   0%   { transform: translateY(0) scale(1); }
   60%  { transform: translateY(-6px) scale(1.018); }
   100% { transform: translateY(-4px) scale(1.012); }
 }
 
-/* รูปขยายจิ๊บ ๆ ตอนโฮเวอร์ */
 .card .thumb img{
   transition: transform .25s ease;
 }
@@ -880,7 +854,6 @@ export default {
   transform: scale(1.02);
 }
 
-/* โฟกัสด้วยคีย์บอร์ดก็ให้เอฟเฟกต์คล้าย ๆ กัน (a11y) */
 .card:focus-visible{
   outline: 2px solid #38bdf8;
   outline-offset: 2px;
