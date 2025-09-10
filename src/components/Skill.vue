@@ -1,14 +1,11 @@
-<!-- components/SkillGlassAccordion.vue -->
+
 <template>
   <section class="skillga-section" id="skills">
     <h1 class="skillga-title" v-reveal>My Skills</h1>
 
     <div class="skillga-layout">
-      <!-- LEFT: Profile / Photo -->
-      <!-- LEFT: Profile / Photo -->
       <aside class="ga-left" v-reveal>
         <div class="ga-photo">
-          <!-- ✅ ใช้ transition ให้สลับรูปนิ่ม -->
           <transition name="fade-swap" mode="out-in">
             <img 
               :key="hovering ? 'alt' : 'main'"
@@ -24,7 +21,7 @@
       </aside>
 
 
-      <!-- RIGHT: Accordion groups (glass) -->
+
       <main class="ga-right">
         <div
           v-for="(group, gi) in groups"
@@ -56,7 +53,6 @@
                     <span class="percent">{{ s.score }}%</span>
                   </div>
                   <div class="ga-bar-outer">
-                    <!-- เก็บค่าเป้าหมายไว้ใน data-w เพื่อใช้ JS เซ็ตทีหลัง -->
                     <div class="ga-bar-inner" :data-w="s.score"></div>
                   </div>
                   <div class="ga-tags">
@@ -98,7 +94,7 @@ export default {
     return {
       pic,
       picAlt,
-      hovering: false,   // state สำหรับเช็คว่ากำลัง hover อยู่หรือไม่
+      hovering: false,  
       openIdx: 0,
       groups: [
         {
@@ -150,19 +146,16 @@ export default {
   },
   methods: {
     toggle(i, evt){
-    // เคลียร์โฟกัสปุ่มที่คลิก (กัน :focus-within ค้าง)
     evt?.currentTarget?.blur?.()
 
     const prev = this.openIdx
     this.openIdx = this.openIdx === i ? -1 : i
 
     this.$nextTick(() => {
-      // รีเซ็ตของอันก่อน
       if (prev !== -1) {
         const prevAcc = this.$el.querySelectorAll('.ga-acc')[prev]
         if (prevAcc) this.resetBars(prevAcc)
       }
-      // เล่นของอันที่เปิด
       if (this.openIdx !== -1) {
         const acc = this.$el.querySelectorAll('.ga-acc')[this.openIdx]
         if (acc) this.playBars(acc)
@@ -175,9 +168,7 @@ export default {
         el.style.width = '0px'
         el.style.opacity = '0'
         el.style.transform = 'translateY(6px)'
-        // force reflow เคลียร์สถานะค้าง
         void el.offsetWidth
-        // คืน transition
         el.style.transition = ''
       })
       wrapper.querySelectorAll('.ga-bar').forEach(li=>{
@@ -188,35 +179,28 @@ export default {
     playBars(wrapper){
       const bars = [...wrapper.querySelectorAll('.ga-bar')]
       const inners = [...wrapper.querySelectorAll('.ga-bar-inner')]
-      // 1) ให้ li ค่อยๆ โผล่ตามดีเลย์
       bars.forEach((li, idx)=>{
         const delay = idx * 70
         li.style.transition = `opacity .45s ease ${delay}ms, transform .45s ease ${delay}ms`
-        // start state (เผื่อกรณีเปิดครั้งแรกหลัง v-show)
         li.style.opacity = '0'
         li.style.transform = 'translateY(10px)'
-        // next frame → show
         requestAnimationFrame(()=>{
           li.style.opacity = '1'
           li.style.transform = 'translateY(0)'
         })
       })
-      // 2) รีเซ็ต width เป็น 0 แล้วค่อยวิ่งไปค่า % หลัง reflow
+
       inners.forEach((el, idx)=>{
         const target = (el.dataset.w || '100') + '%'
-        // start state
         el.style.width = '0px'
         el.style.opacity = '0'
         el.style.transform = 'translateY(6px)'
-        // ให้ดีเลย์ของแท่งวิ่งช้ากว่า li นิดนึง
         const delay = idx * 70 + 120
-        // force reflow
         void el.offsetWidth
-        // ตั้ง transition ใหม่ (กันโดนเคสถูกรวมเฟรม)
         el.style.transition = `width .9s cubic-bezier(.22,.61,.36,1) .05s,
                                opacity .45s ease ${delay}ms,
                                transform .45s ease ${delay}ms`
-        // วิ่ง!
+
         requestAnimationFrame(()=>{
           el.style.opacity = '1'
           el.style.transform = 'translateY(0)'
@@ -226,7 +210,6 @@ export default {
     }
   },
   mounted(){
-    // เล่นของกลุ่มแรกตอนโหลด
     this.$nextTick(()=>{
       const first = this.$el.querySelectorAll('.ga-acc')[this.openIdx]
       if (first) this.playBars(first)
@@ -237,9 +220,8 @@ export default {
 
 <style scoped>
 
-/* ===== Section & layout ===== */
 .skillga-section {
-  margin-top: 120px;  /* เว้นห่างจาก section ด้านบน */
+  margin-top: 120px; 
   padding: 3rem 2rem;
   background: radial-gradient(1200px 600px at 10% 0%, rgba(56,189,248,.12), transparent),
               linear-gradient(135deg, #1e293b, #0f172a);
@@ -258,7 +240,7 @@ export default {
 }
 @media (max-width: 980px){ .skillga-layout{ grid-template-columns:1fr; } }
 
-/* ===== Glass card base ===== */
+
 .ga-card{
   background: rgba(255,255,255,.06);
   border:1px solid rgba(255,255,255,.12);
@@ -268,7 +250,7 @@ export default {
   box-shadow: 0 14px 40px rgba(0,0,0,.25);
 }
 
-/* ===== Left profile ===== */
+
 .ga-left .profile{ text-align:center; position: sticky; top: 90px; }
 @media (max-width: 980px){ .ga-left .profile{ position: static; } }
 .ga-photo{ aspect-ratio:1/1; width: 100%; max-width: 260px; margin: .3rem auto 1rem; overflow:hidden; border-radius:14px; background:#0b1220; }
@@ -278,7 +260,7 @@ export default {
 .ga-btn{ background:#38bdf8; color:#031926; padding:.55rem 1rem; border-radius:10px; font-weight:800; }
 .ga-btn.ghost{ background:transparent; border:1px solid rgba(148,163,184,.3); color:#cbd5e1; }
 
-/* ===== Accordion ===== */
+
 .ga-acc{ padding:0; overflow:hidden; }
 .ga-acc + .ga-acc{ margin-top: .9rem; }
 
@@ -294,11 +276,10 @@ export default {
 
 .ga-acc-body{ padding: .6rem 1.2rem 1.2rem; }
 
-/* ===== Bars ===== */
+
 .ga-bars{ list-style:none; padding:0; margin:0; display:grid; gap:1rem; }
 
 .ga-bar{
-  /* สถานะเริ่ม: ซ่อนนิดๆ ไว้ให้ fade+slide */
   opacity: 0;
   transform: translateY(10px);
 }
@@ -319,43 +300,38 @@ export default {
   background: linear-gradient(90deg,#38bdf8,#22d3ee);
 }
 
-/* tags + desc */
+
 .ga-tags{ display:flex; gap:.35rem; flex-wrap:wrap; margin-top:.35rem; }
 .ga-tag{ font-size:.8rem; padding:.18rem .5rem; border-radius:999px; background: rgba(148,163,184,.18); color:#cbd5e1; }
 .ga-desc{ margin:.35rem 0 0; color:#cbd5e1; font-size:.95rem; }
 
-/* ===== Reveal on scroll ===== */
 .reveal{ opacity:0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; transition-delay: var(--delay, 0ms); }
 .reveal.in-view{ opacity:1; transform: translateY(0); }
 
-/* Accordion transition */
 .ga-acc-enter-from, .ga-acc-leave-to{ opacity:0; transform: translateY(-6px); }
 .ga-acc-enter-active, .ga-acc-leave-active{ transition: all .25s ease; }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce){
   .ga-bar, .ga-bar-inner{ transition: none !important; transform:none !important; opacity:1 !important; }
   .reveal{ transition: none !important; transform:none !important; opacity:1 !important; }
   .ga-acc-enter-active, .ga-acc-leave-active{ transition: none !important; }
 }
 .ga-photo {
-  /* ❌ ไม่ต้องมีพื้นหลังหรือกล่อง */
   width: 100%;
   max-width: 260px;
   margin: .3rem auto 1rem;
-  overflow: visible;  /* ให้รูปโชว์เต็ม */
-  border-radius: 0;   /* เอาโค้งออก */
-  background: transparent; /* ใส */
-  box-shadow: none;   /* ไม่มีเงา */
+  overflow: visible;  
+  border-radius: 0;   
+  background: transparent; 
+  box-shadow: none;  
 }
 
 .ga-photo img {
   width: 100%;
   height: auto;
-  object-fit: contain;  /* ให้คงสัดส่วน */
+  object-fit: contain; 
   display: block;
 }
-/* base */
 .ga-acc{
   position: relative;
   will-change: transform, box-shadow;
@@ -365,7 +341,6 @@ export default {
     box-shadow 0.4s ease;
 }
 
-/* ฐานเดิม */
 .ga-acc{
   position: relative;
   will-change: transform, box-shadow;
@@ -375,34 +350,28 @@ export default {
     box-shadow 0.4s ease;
 }
 
-/* เด้งตอน hover (สำหรับการ์ดที่ยังไม่เปิด) */
 .ga-acc:hover{
   transform: scale(1.06);
   box-shadow: 0 18px 40px rgba(0,0,0,.45);
 }
 
-/* ✅ การ์ดที่เปิดอยู่: คงเด้งเล็กๆ ต่อให้เอาเมาส์ออก */
 .ga-acc.open{
-  transform: scale(1.03); /* คงขยายเล็กน้อย */
+  transform: scale(1.03); 
   box-shadow: 0 18px 48px rgba(0,0,0,.40);
 }
 
-/* เมื่อเปิดอยู่แล้ว, hover ไม่ต้องเด้งเพิ่ม (คงค่าข้างบนไว้) */
 .ga-acc.open:hover{
   transform: scale(1.03);
   box-shadow: 0 18px 48px rgba(0,0,0,.40);
 }
 
-/* กัน state ค้าง: ถ้าไม่ได้ hover และไม่ open ให้กลับปกติแน่นอน */
 .ga-acc:not(:hover):not(.open){
   transform: scale(1);
   box-shadow: 0 14px 40px rgba(0,0,0,.25);
 }
 
-/* กันกระตุกตอนคลิก */
 .ga-acc-head:focus{ outline: none; }
 
-/* ===== Fade Swap Transition ===== */
 .fade-swap-enter-active,
 .fade-swap-leave-active {
   transition: opacity 0.4s ease, transform 0.4s ease;
