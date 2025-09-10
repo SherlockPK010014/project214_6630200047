@@ -1,4 +1,3 @@
-<!-- components/Header.vue -->
 <template>
   <header class="logohead">
     <a href="#home" class="logo">Prang Kanyasiri</a>
@@ -23,7 +22,6 @@ export default {
   
 }
 
-/* รีเซ็ตลิงก์ในเมนูทุกสถานะให้ไม่มีเส้น/ขอบเดิม */
 .navbar a,
 .navbar a:link,
 .navbar a:visited,
@@ -31,10 +29,10 @@ export default {
 .navbar a:active,
 .navbar a:focus,
 .navbar a:focus-visible {
-  text-decoration: none !important;        /* ลบ underline เดิม */
+  text-decoration: none !important;    
   text-decoration-color: transparent !important;
-  border: none !important;                 /* กัน border-bottom จากที่อื่น */
-  outline: none;                           /* เอาเส้น focus เดิมออก (เดี๋ยวใส่แบบเราเอง) */
+  border: none !important;              
+  outline: none;                       
   box-shadow: none;
   color: #e2e8f0;
   position: relative;
@@ -44,7 +42,7 @@ export default {
   font-weight: 500;
 }
 
-/* เส้นฟ้าแบบ animation ของเราเอง */
+
 .navbar a::after {
   content: "";
   position: absolute;
@@ -56,7 +54,7 @@ export default {
   transition: width 0.3s ease;
 }
 
-/* hover = สีฟ้า + เส้นฟ้า */
+
 .navbar a:hover {
   color: #38bdf8;
 }
@@ -64,7 +62,6 @@ export default {
   width: 100%;
 }
 
-/* ใส่โฟกัสสไตล์ใหม่เพื่อการเข้าถึง (แทนเส้นแดงของเบราว์เซอร์) */
 .navbar a:focus-visible {
   outline: 2px solid #38bdf8;
   outline-offset: 4px;
