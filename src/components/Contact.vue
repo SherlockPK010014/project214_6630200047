@@ -3,9 +3,7 @@
     <h1 class="c2-title" v-reveal>Contact</h1>
 
     <div class="c2-wrap">
-      <!-- LEFT: Channels & Socials -->
       <main class="c2-right">
-        <!-- Primary channels -->
         <div class="c2-card" v-reveal style="--delay:140ms">
           <h4 class="c2-card-title">Reach me via</h4>
           <ul class="c2-list">
@@ -39,7 +37,7 @@
           </ul>
         </div>
 
-        <!-- Social chips -->
+
         <div class="c2-card" v-reveal style="--delay:200ms">
           <h4 class="c2-card-title">Socials</h4>
           <div class="c2-chips">
@@ -57,13 +55,13 @@
           </div>
         </div>
 
-        <!-- Toast -->
+
         <transition name="c2-toast">
           <div v-if="toast" class="c2-toast">{{ toast }}</div>
         </transition>
       </main>
 
-      <!-- RIGHT: Profile visual -->
+
       <aside class="c2-left" v-reveal style="--delay:80ms">
         <div class="c2-visual">
           <div class="c2-blob"></div>
@@ -152,7 +150,6 @@ export default {
 </script>
 
 <style scoped>
-/* ===== Section ===== */
 .c2-section{
   margin-top:140px;
   padding:3rem 2rem;
@@ -175,8 +172,6 @@ export default {
   margin-bottom:1.4rem;
 }
 
-/* ===== Layout ===== */
-/* LEFT = ช่องทางติดต่อ, RIGHT = โปรไฟล์ */
 .c2-wrap{
   display:grid;
   grid-template-columns: 1fr 380px;
@@ -186,7 +181,7 @@ export default {
   .c2-wrap{ grid-template-columns: 1fr; }
 }
 
-/* ===== Right: Profile panel ===== */
+
 .c2-left{
   display:flex;
   flex-direction:column;
@@ -242,7 +237,7 @@ export default {
 .c2-name{ font-size:1.6rem; font-weight:800; color:#e2e8f0; }
 .c2-role{ color:#cbd5e1; }
 
-/* ===== Left: Cards (channels + socials) ===== */
+
 .c2-right{
   display:flex;
   flex-direction:column;
@@ -259,7 +254,6 @@ export default {
   flex:1;
   min-height:240px;
 
-  /* วางคอนเทนต์ชิดด้านบน (ไม่ลอยกลางแนวตั้ง) */
   display:flex;
   flex-direction:column;
   justify-content:flex-start;
@@ -269,10 +263,9 @@ export default {
   font-size:1.2rem;
   font-weight:800;
   color:#e2e8f0;
-  margin:0 0 .8rem; /* รีเซ็ต margin-top */
+  margin:0 0 .8rem; 
 }
 
-/* Primary list */
 .c2-list{
   list-style:none;
   padding:0;
@@ -329,7 +322,7 @@ export default {
   border-color:rgba(56,189,248,.45);
 }
 
-/* Social chips */
+
 .c2-chips{ display:flex; flex-wrap:wrap; gap:.6rem; }
 .c2-chip{
   display:inline-flex; align-items:center; gap:.5rem;
@@ -353,7 +346,7 @@ export default {
 }
 .c2-chip-text{ font-weight:700; }
 
-/* Reveal */
+
 .reveal{
   opacity:0;
   transform:translateY(16px);
@@ -365,7 +358,7 @@ export default {
   transform:translateY(0);
 }
 
-/* Toast */
+
 .c2-toast{
   position:fixed;
   bottom:24px;
